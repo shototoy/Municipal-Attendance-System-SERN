@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Fingerprint, ChevronRight, ChevronDown } from 'lucide-react';
+import { Fingerprint, ChevronRight, ChevronDown, LogOut, Home } from 'lucide-react';
 const iconMap = {
+  Home,
   Fingerprint
 };
 
@@ -34,12 +35,16 @@ function NavBadge({ path }) {
 
 const menuConfig = [
   {
+    id: 'home',
+    label: 'Home',
+    icon: 'Home',
+    path: '/admin'
+  },
+  {
     id: 'logs',
     label: 'Employee Logs',
     icon: 'Fingerprint',
-    submenu: [
-      { id: 'view-logs', label: 'View biometric logs', path: '/admin/logs' }
-    ]
+    path: '/admin/logs'
   }
 ];
 
@@ -127,11 +132,10 @@ export default function Sidebar({ onLogout, collapsed, setCollapsed }) {
         <ul className="space-y-1">
           {menuConfig.map(menu => {
             const Icon = iconMap[menu.icon];
-            const isOpen = openMenuId === menu.id;
             return (
               <li key={menu.id}>
                 <button
-                  onClick={() => (menu.submenu ? toggleSubmenu(menu.id) : handleNavigation(menu.path))}
+                  onClick={() => handleNavigation(menu.path)}
                   className={get('sidebar.navButton', 'w-full px-6 py-3 flex items-center justify-between hover:bg-indigo-700 transition') + (collapsed ? ' justify-center px-0' : '')}
                   style={collapsed ? { paddingLeft: 0, paddingRight: 0 } : {}}
                 >
@@ -139,33 +143,8 @@ export default function Sidebar({ onLogout, collapsed, setCollapsed }) {
                     <Icon className={collapsed ? 'w-6 h-6' : 'w-5 h-5'} />
                     {!collapsed && <span className="text-sm">{menu.label}</span>}
                   </span>
-                  {!collapsed && menu.submenu ? (
-                    isOpen ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />
-                  ) : null}
                 </button>
-
-                <div
-                  className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${isOpen && !collapsed ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
-                >
-                  <ul className="bg-gray-900 overflow-hidden">
-                    {menu.submenu && menu.submenu.map(item => (
-                      <li key={item.id}>
-                        <button
-                          onClick={() => handleNavigation(item.path)}
-                          className={
-                            get('sidebar.submenuButton', 'w-full px-6 py-2 pl-14 text-left text-sm hover:bg-indigo-700 transition flex items-center justify-between') +
-                            (isActive(item.path) ? ' bg-indigo-700 text-blue-400' : ' text-gray-300') +
-                            (collapsed ? ' hidden' : '')
-                          }
-                        >
-                          <span>{item.label}</span>
-                          <NavBadge path={item.path} />
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-               </div>
-             </li>
+              </li>
             );
           })}
         </ul>
@@ -174,10 +153,34 @@ export default function Sidebar({ onLogout, collapsed, setCollapsed }) {
           <div className={collapsed ? 'p-2 flex flex-col items-center' : 'p-4'}>
         <button
           onClick={onLogout}
-          className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition font-medium text-sm"
-          style={collapsed ? { fontSize: 0, height: 36, width: 36, padding: 0 } : {}}
+          className={
+            'w-full flex items-center bg-red-600 hover:bg-red-700 text-white rounded transition font-medium text-sm' +
+            (collapsed ? ' justify-center' : ' gap-2 py-2 px-4')
+          }
+          style={{
+            height: 36,
+            minWidth: 36,
+            maxWidth: collapsed ? 36 : '100%',
+            width: collapsed ? 36 : '100%',
+            padding: collapsed ? 0 : undefined,
+            transition: 'max-width 0.3s cubic-bezier(0.4,0,0.2,1), width 0.3s cubic-bezier(0.4,0,0.2,1), padding 0.3s, background 0.3s',
+            overflow: 'hidden',
+          }}
         >
-          {collapsed ? <span className="sr-only">Logout</span> : 'LOGOUT'}
+          <LogOut className={collapsed ? 'w-5 h-5' : 'w-4 h-4'} />
+          <span
+            style={{
+              display: 'inline-block',
+              maxWidth: collapsed ? 0 : 80,
+              opacity: collapsed ? 0 : 1,
+              marginLeft: collapsed ? 0 : 8,
+              transition: 'max-width 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.2s cubic-bezier(0.4,0,0.2,1), margin-left 0.3s',
+              whiteSpace: 'nowrap',
+              pointerEvents: collapsed ? 'none' : 'auto',
+            }}
+          >
+            LOGOUT
+          </span>
         </button>
       </div>
     </aside>

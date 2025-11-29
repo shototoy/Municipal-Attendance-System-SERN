@@ -19,33 +19,23 @@ function formatDate(ts) {
   return d.toLocaleDateString();
 }
 
+
 export default function AttendanceLogs() {
   const { get } = useTheme();
-  const [rows, setRows] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [staff, setStaff] = useState([]);
+  const [rows, setRows] = useState(MOCK_LOGS);
+  const [staff, setStaff] = useState(MOCK_STAFF);
   const [selectedStaff, setSelectedStaff] = useState('');
   const [fromDate, setFromDate] = useState('');
   const todayStr = `${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}-${String(new Date().getDate()).padStart(2,'0')}`;
   const [toDate, setToDate] = useState(todayStr);
   const [applying, setApplying] = useState(false);
 
-  // Simulate fetch
-  const fetchLogs = async ({ from, to } = {}) => {
-    setLoading(true);
-    setTimeout(() => {
-      let filtered = MOCK_LOGS;
-      if (from) filtered = filtered.filter(l => l.timestamp >= new Date(from).setHours(0,0,0,0));
-      if (to) filtered = filtered.filter(l => l.timestamp <= new Date(to).setHours(23,59,59,999));
-      setRows(filtered);
-      setLoading(false);
-    }, 500);
-  };
-
+  // Filter logs directly, no loading
   useEffect(() => {
-    setStaff(MOCK_STAFF);
-    fetchLogs({ from: fromDate, to: toDate });
-    // eslint-disable-next-line
+    let filtered = MOCK_LOGS;
+    if (fromDate) filtered = filtered.filter(l => l.timestamp >= new Date(fromDate).setHours(0,0,0,0));
+    if (toDate) filtered = filtered.filter(l => l.timestamp <= new Date(toDate).setHours(23,59,59,999));
+    setRows(filtered);
   }, [fromDate, toDate]);
 
   const grouped = useMemo(() => {
@@ -87,24 +77,14 @@ export default function AttendanceLogs() {
     return result;
   }, [rows, selectedStaff]);
 
-  const handleApply = async (e) => {
+
+  const handleApply = (e) => {
     e?.preventDefault();
-    setApplying(true);
-    try {
-      const from = fromDate ? new Date(fromDate).toISOString() : undefined;
-      const to = toDate ? new Date(toDate).toISOString() : undefined;
-      await fetchLogs({ from, to });
-    } finally {
-      setApplying(false);
-    }
+    // Filtering is handled by useEffect
   };
 
-  if (loading) {
-    return <div className="p-6">Loading...</div>;
-  }
-
   return (
-    <div className="p-6">
+    <div className="p-6 bg-white min-h-screen">
       <h1 className={get('admin.title', 'text-2xl font-bold mb-4')}>Attendance Logs</h1>
 
       <form onSubmit={handleApply} className="mb-4 bg-white rounded shadow p-4 grid grid-cols-1 md:grid-cols-4 gap-3 items-end">

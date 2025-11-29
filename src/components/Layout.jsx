@@ -17,18 +17,12 @@ export default function Layout() {
   // Set body background color to match sidebar from theme
   if (typeof document !== 'undefined') {
     document.body.className = '';
-    document.body.classList.add('min-h-screen');
-    document.body.classList.add('bg-gradient-to-b', 'from-indigo-800', 'to-blue-800'); // fallback
-    // Try to use theme color if available
-    const theme = get('colors.adminSidebarBg', null);
-    if (theme) {
-      theme.split(' ').forEach(cls => document.body.classList.add(cls));
-    }
+    document.body.classList.add('min-h-screen', 'bg-primary');
   }
 
   return (
     <NotificationsProvider>
-      <div className={get('layout.shell', 'flex h-screen bg-gray-100')}>
+      <div className={get('layout.shell', 'flex h-screen bg-background')}>
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
         <main
           className={`flex-1 w-full h-full flex flex-col ${mainMargin}`}

@@ -1,6 +1,18 @@
+
+@import './fonts.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Theme color CSS variables with fallbacks */
+:root {
+  --primary: #1a3c34;
+  --secondary: #4e9a51;
+  --background: #e9ecef;
+  --text: #222222;
+  --accent1: #b7c9b7;
+  --accent2: #ffffff;
+}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {

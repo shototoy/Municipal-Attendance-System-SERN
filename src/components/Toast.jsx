@@ -52,11 +52,11 @@ export function ToastProvider({ children }) {
     info: <AlertCircle className="w-6 h-6" />
   };
 
-  // Color palette per request: green (added), beige (pending), vermilion red (error)
+  // Use theme color variables for toast backgrounds and text
   const colors = {
-    success: 'bg-[#22c55e] text-white',          // green
-    error: 'bg-[#E34234] text-white',            // vermilion red
-    info: 'bg-yellow-100 text-yellow-800 border border-yellow-300'          // beige with dark text
+    success: 'bg-accent1 text-text', // accent1 (greenish) background, theme text
+    error: 'bg-secondary text-white', // secondary (red or error color) background, white text
+    info: 'bg-background text-text border border-accent1' // background, theme text, accent border
   };
 
   const navigate = useNavigate();

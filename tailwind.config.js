@@ -4,8 +4,23 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'bg-primary', 'bg-secondary', 'bg-background', 'bg-text', 'bg-accent1', 'bg-accent2',
+    'text-primary', 'text-secondary', 'text-background', 'text-text', 'text-accent1', 'text-accent2',
+    'border-primary', 'border-secondary', 'border-background', 'border-text', 'border-accent1', 'border-accent2',
+    'hover:bg-primary', 'hover:bg-secondary', 'hover:bg-background', 'hover:bg-text', 'hover:bg-accent1', 'hover:bg-accent2',
+    'hover:text-primary', 'hover:text-secondary', 'hover:text-background', 'hover:text-text', 'hover:text-accent1', 'hover:text-accent2',
+  ],
   theme: {
     extend: {
+      colors: {
+        primary: 'var(--primary)',
+        secondary: 'var(--secondary)',
+        background: 'var(--background)',
+        text: 'var(--text)',
+        accent1: 'var(--accent1)',
+        accent2: 'var(--accent2)',
+      },
       animation: {
         'slide-in': 'slideIn 0.3s ease-out',
         'fade-in': 'fadeIn 0.3s ease-in',

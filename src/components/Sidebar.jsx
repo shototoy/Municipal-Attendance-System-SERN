@@ -16,7 +16,7 @@ function CategoryBadge({ menuId }) {
   const count = totals[menuId] || 0;
   if (!count) return null;
   return (
-    <span className="ml-2 inline-flex items-center justify-center text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full bg-red-600 text-white">
+    <span className="ml-2 inline-flex items-center justify-center text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full bg-secondary text-white">
       {count > 99 ? '99+' : count}
     </span>
   );
@@ -27,7 +27,7 @@ function NavBadge({ path }) {
   const count = ctx?.unread?.[path] || 0;
   if (!count) return null;
   return (
-    <span className="ml-2 inline-flex items-center justify-center text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white">
+    <span className="ml-2 inline-flex items-center justify-center text-[10px] font-bold min-w-[18px] h-[18px] px-1 rounded-full bg-secondary text-white">
       {count > 99 ? '99+' : count}
     </span>
   );
@@ -72,8 +72,7 @@ export default function Sidebar({ onLogout, collapsed, setCollapsed }) {
   return (
     <aside
       className={
-        get('sidebar.root', 'text-white flex flex-col h-screen') +
-        ' ' + get('colors.adminSidebarBg', '')
+        get('sidebar.root', 'text-white flex flex-col h-screen bg-primary')
       }
       style={{
         overflow: 'hidden',
@@ -86,33 +85,33 @@ export default function Sidebar({ onLogout, collapsed, setCollapsed }) {
       }}
     >
       <div className={collapsed ? 'p-2 flex flex-col items-center' : 'pt-6 px-6 flex flex-col items-center'}>
-            <div className={collapsed ? '' : 'flex items-center gap-3 mb-4'} style={{ position: 'relative', minHeight: '2.25rem' }}>
-              <button
-                aria-label="Toggle sidebar"
-                className={collapsed ? 'mb-2 text-white hover:text-blue-200 focus:outline-none' : 'text-white hover:text-blue-200 focus:outline-none'}
-                onClick={() => setCollapsed((c) => !c)}
-              >
-                <Menu className={collapsed ? 'w-6 h-6' : 'w-5 h-5'} />
-              </button>
-              <span
-                className="text-white font-semibold text-base whitespace-nowrap"
-                style={{
-                  display: 'inline-block',
-                  maxWidth: collapsed ? 0 : 200,
-                  opacity: collapsed ? 0 : 1,
-                  transition: 'max-width 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.2s cubic-bezier(0.4,0,0.2,1)',
-                  overflow: 'hidden',
-                  whiteSpace: 'nowrap',
-                  marginLeft: collapsed ? 0 : '0.75rem',
-                  pointerEvents: collapsed ? 'none' : 'auto',
-                }}
-              >
-                Municipality of Esperanza
-              </span>
-            </div>
+        <div className={collapsed ? '' : 'flex items-center gap-3 mb-4'} style={{ position: 'relative', minHeight: '2.25rem' }}>
+          <button
+            aria-label="Toggle sidebar"
+            className={collapsed ? 'mb-2 text-white hover:text-accent1 focus:outline-none' : 'text-white hover:text-accent1 focus:outline-none'}
+            onClick={() => setCollapsed((c) => !c)}
+          >
+            <Menu className={(collapsed ? 'w-6 h-6' : 'w-5 h-5') + ' text-white'} />
+          </button>
+          <span
+            className="text-text font-semibold text-base whitespace-nowrap"
+            style={{
+              display: 'inline-block',
+              maxWidth: collapsed ? 0 : 200,
+              opacity: collapsed ? 0 : 1,
+              transition: 'max-width 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.2s cubic-bezier(0.4,0,0.2,1)',
+              overflow: 'hidden',
+              whiteSpace: 'nowrap',
+              marginLeft: collapsed ? 0 : '0.75rem',
+              pointerEvents: collapsed ? 'none' : 'auto',
+            }}
+          >
+            Municipality of Esperanza
+          </span>
+        </div>
         <div
           className={
-            'rounded-full border-2 border-gray-600 bg-gray-700 flex items-center justify-center text-gray-300 font-bold mx-auto'
+            'rounded-full border-2 border-accent1 bg-background flex items-center justify-center text-text font-bold mx-auto'
           }
           style={{
             width: collapsed ? '2.5rem' : '5rem',
@@ -136,7 +135,7 @@ export default function Sidebar({ onLogout, collapsed, setCollapsed }) {
               <li key={menu.id}>
                 <button
                   onClick={() => handleNavigation(menu.path)}
-                  className={get('sidebar.navButton', 'w-full px-6 py-3 flex items-center justify-between hover:bg-indigo-700 transition') + (collapsed ? ' justify-center px-0' : '')}
+                  className={get('sidebar.navButton', 'w-full px-6 py-3 flex items-center justify-between hover:bg-accent1 transition') + (collapsed ? ' justify-center px-0' : '')}
                   style={collapsed ? { paddingLeft: 0, paddingRight: 0 } : {}}
                 >
                   <span className={collapsed ? 'flex items-center justify-center w-full' : 'flex items-center gap-3'}>
@@ -154,7 +153,7 @@ export default function Sidebar({ onLogout, collapsed, setCollapsed }) {
         <button
           onClick={onLogout}
           className={
-            'w-full flex items-center bg-red-600 hover:bg-red-700 text-white rounded transition font-medium text-sm' +
+            'w-full flex items-center bg-secondary hover:bg-accent1 text-white rounded transition font-medium text-sm' +
             (collapsed ? ' justify-center' : ' gap-2 py-2 px-4')
           }
           style={{

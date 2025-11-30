@@ -22,7 +22,7 @@ export default function Layout() {
 
   return (
     <NotificationsProvider>
-      <div className={get('layout.shell', 'flex h-screen bg-background')}>
+      <div className={get('layout.shell', 'flex h-screen bg-primary')}>
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
         <main
           className={`flex-1 w-full h-full flex flex-col ${mainMargin}`}

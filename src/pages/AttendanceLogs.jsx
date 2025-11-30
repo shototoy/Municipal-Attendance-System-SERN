@@ -1,6 +1,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { Search, Bell, User } from '../components/Icons';
 
 // Mock staff and attendance data
 const MOCK_STAFF = [
@@ -85,35 +86,50 @@ export default function AttendanceLogs() {
 
   return (
     <div className="p-6 bg-accent2 min-h-screen">
-      <h1 className={get('admin.title', 'text-2xl font-bold mb-4 text-text')}>Attendance Logs</h1>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+        {/* Search Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', borderRadius: 9999, background: '#fff', padding: '0.5rem 1rem', minWidth: 240, boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+          <Search size={20} style={{ color: '#888', marginRight: 8 }} />
+          <input
+            type="text"
+            placeholder="Search logs..."
+            style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: 16, width: 160 }}
+          />
+        </div>
+        {/* Right icons */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+          <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} aria-label="Notifications">
+            <Bell size={22} style={{ color: '#1a3c34' }} />
+          </button>
+          <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#b7c9b7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <User size={20} style={{ color: '#fff' }} />
+          </div>
+        </div>
+      </div>
 
-      <form onSubmit={handleApply} className="mb-4 bg-accent2 rounded shadow p-4 grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
-        <div>
-          <label className="block text-xs font-semibold text-text mb-1">Employee</label>
-          <select
-            value={selectedStaff}
-            onChange={(e) => setSelectedStaff(e.target.value)}
-            className="w-full border border-accent1 rounded px-3 py-2 bg-background text-text"
-          >
-            <option value="">All</option>
-            {staff.map(s => (
-              <option key={s.id} value={s.id}>
-                {s.firstname} {s.middlename ? s.middlename + ' ' : ''}{s.lastname}
-              </option>
-            ))}
+
+      {/* Inline filter bar: left = current month, right = year/month dropdowns */}
+      <form style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, background: '#e9ecef', borderRadius: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.04)', padding: '0.75rem 1.5rem' }}>
+        {/* Left: Current Month */}
+        <div style={{ fontWeight: 600, fontSize: 18, color: '#1a3c34' }}>
+          Month: {new Date().toLocaleString('default', { month: 'long' })}
+        </div>
+        {/* Right: Year and Month dropdowns */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <label htmlFor="year-select" style={{ marginRight: 4, fontWeight: 500, color: '#1a3c34' }}>Year:</label>
+          <select id="year-select" style={{ borderRadius: 9999, border: '1px solid #b7c9b7', padding: '0.35rem 1.1rem', fontSize: 16 }}>
+            {Array.from({ length: 6 }).map((_, i) => {
+              const year = new Date().getFullYear() - 2 + i;
+              return <option key={year} value={year}>{year}</option>;
+            })}
           </select>
-        </div>
-        <div>
-          <label className="block text-xs font-semibold text-text mb-1">From</label>
-          <input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} className="w-full border border-accent1 rounded px-3 py-2 bg-background text-text" />
-        </div>
-        <div>
-          <label className="block text-xs font-semibold text-text mb-1">To</label>
-          <input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} className="w-full border border-accent1 rounded px-3 py-2 bg-background text-text" />
-        </div>
-        <div className="flex gap-2">
-          <button type="submit" disabled={applying} className="px-3 py-2 bg-primary text-accent2 rounded disabled:opacity-50">{applying ? 'Applying...' : 'Apply'}</button>
-          <button type="button" className="px-3 py-2 bg-accent1 text-text rounded" onClick={() => { setSelectedStaff(''); setFromDate(''); setToDate(''); }}>Clear</button>
+          <label htmlFor="month-select" style={{ marginLeft: 10, marginRight: 4, fontWeight: 500, color: '#1a3c34' }}>Month:</label>
+          <select id="month-select" style={{ borderRadius: 9999, border: '1px solid #b7c9b7', padding: '0.35rem 1.1rem', fontSize: 16 }}>
+            {Array.from({ length: 12 }).map((_, i) => {
+              const month = new Date(0, i).toLocaleString('default', { month: 'long' });
+              return <option key={month} value={i+1}>{month}</option>;
+            })}
+          </select>
         </div>
       </form>
 

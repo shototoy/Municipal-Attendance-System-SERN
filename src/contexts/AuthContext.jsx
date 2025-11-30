@@ -1,5 +1,18 @@
 import { createContext, useState, useEffect } from 'react';
-import api from '../services/api';
+
+// Fake auth API that always succeeds regardless of password
+const fakeAuthAPI = {
+  login: async (username, password) => {
+    // Always succeed, return a fake token and user
+    return {
+      success: true,
+      data: {
+        token: 'fake-token',
+        user: { username, role: 'admin' }
+      }
+    };
+  }
+};
 
 export const AuthContext = createContext(null);
 
@@ -27,7 +40,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await api.login(username, password);
+      const response = await fakeAuthAPI.login(username, password);
       if (response?.success && response?.data?.token && response?.data?.user) {
         const { token, user: userData } = response.data;
         localStorage.setItem('token', token);

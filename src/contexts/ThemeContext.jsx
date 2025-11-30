@@ -3,16 +3,13 @@ import theme from '../config/theme.json';
 
 const ThemeContext = createContext(theme);
 
-export function ThemeProvider({ children, value }) {
-  // allow override via value, default to imported theme
-  return (
-    <ThemeContext.Provider value={value || theme}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
+const ThemeProvider = ({ children, value }) => (
+  <ThemeContext.Provider value={value || theme}>
+    {children}
+  </ThemeContext.Provider>
+);
 
-export function useTheme() {
+const useTheme = () => {
   const t = useContext(ThemeContext);
   const get = (path, fallback = '') => {
     const parts = path.split('.');
@@ -24,4 +21,6 @@ export function useTheme() {
     return typeof cur === 'string' ? cur : fallback;
   };
   return { theme: t, get };
-}
+};
+
+export { ThemeContext, ThemeProvider, useTheme };

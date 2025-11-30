@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './components/Toast';
-import { ThemeProvider } from './contexts/ThemeContext';
+import { ThemeContext } from './contexts/ThemeContext';
 import Layout from './components/Layout';
 import Login from './pages/Login';
 import KioskTerminal from './pages/KioskTerminal';
@@ -42,14 +42,15 @@ function AppRoutes() {
   );
 }
 
+
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <ToastProvider>
-          <ThemeProvider>
+          <ThemeContext.Provider value={{}}>
             <AppRoutes />
-          </ThemeProvider>
+          </ThemeContext.Provider>
         </ToastProvider>
       </AuthProvider>
     </BrowserRouter>

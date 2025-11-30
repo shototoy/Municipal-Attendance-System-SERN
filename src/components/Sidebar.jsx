@@ -94,7 +94,7 @@ export default function Sidebar({ onLogout, collapsed, setCollapsed }) {
             <Menu className={(collapsed ? 'w-6 h-6' : 'w-5 h-5') + ' text-white'} />
           </button>
           <span
-            className="text-text font-semibold text-base whitespace-nowrap"
+            className="text-white font-semibold text-base whitespace-nowrap"
             style={{
               display: 'inline-block',
               maxWidth: collapsed ? 0 : 200,

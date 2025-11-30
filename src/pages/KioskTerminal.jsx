@@ -69,12 +69,32 @@ export default function KioskTerminal() {
           <h1 className="text-2xl font-bold leading-tight truncate text-accent2">Attendance Kiosk</h1>
         </div>
       </header>
-      <main className="flex-1 flex flex-col justify-center items-center p-6">
-        <form onSubmit={handleRfidSubmit} className="w-full flex flex-col items-center gap-6">
-          <div className="w-full text-center mb-2">
-            <h2 className="text-xl font-semibold text-text mb-1">Scan RFID to Log Attendance</h2>
-            <p className="text-secondary text-sm">Place your RFID card on the reader</p>
+      <main className="flex-1 flex flex-col justify-center items-center p-6 relative">
+        {/* Centered image placeholder */}
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 180 }}>
+          <div style={{ width: 140, height: 140, borderRadius: '50%', background: '#b7c9b7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, color: '#fff', margin: '0 auto' }}>
+            Image
           </div>
+        </div>
+        {/* 3 placeholders above footer */}
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', margin: '32px 0 16px 0' }}>
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <div style={{ width: 60, height: 60, borderRadius: 16, background: '#e9ecef', margin: '0 auto', marginBottom: 8 }} />
+            <div style={{ color: '#888' }}>Placeholder 1</div>
+          </div>
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <div style={{ width: 60, height: 60, borderRadius: 16, background: '#e9ecef', margin: '0 auto', marginBottom: 8 }} />
+            <div style={{ color: '#888' }}>Placeholder 2</div>
+          </div>
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <div style={{ width: 60, height: 60, borderRadius: 16, background: '#e9ecef', margin: '0 auto', marginBottom: 8 }} />
+            <div style={{ color: '#888' }}>Placeholder 3</div>
+          </div>
+        </div>
+      </main>
+      {/* Footer with input and button in one row */}
+      <footer style={{ width: '100%', padding: '1rem', background: '#fff', borderTop: '1px solid #b7c9b7', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+        <form onSubmit={handleRfidSubmit} style={{ display: 'flex', width: '100%', maxWidth: 400, gap: 12 }}>
           <input
             ref={inputRef}
             type="text"
@@ -83,29 +103,16 @@ export default function KioskTerminal() {
             value={rfid}
             onChange={e => setRfid(e.target.value)}
             placeholder="Scan RFID here"
-            className={get('kiosk.input', 'text-center text-2xl tracking-widest px-4 py-4 rounded-lg border-2 border-accent1 focus:ring-2 focus:ring-primary outline-none w-full max-w-xs bg-accent2 text-text shadow')}
-            style={{ letterSpacing: 8, fontFamily: 'monospace' }}
+            style={{ flex: 1, fontSize: 20, padding: '0.75rem 1rem', borderRadius: 8, border: '2px solid #b7c9b7', outline: 'none', background: '#e9ecef', color: '#222', letterSpacing: 8, fontFamily: 'monospace' }}
           />
           <button
             type="submit"
-            className={get('kiosk.button', 'w-full max-w-xs py-3 bg-primary text-accent2 rounded-lg text-lg font-bold shadow hover:bg-secondary transition')}
+            style={{ padding: '0.75rem 1.5rem', borderRadius: 8, background: '#1a3c34', color: '#fff', fontWeight: 700, fontSize: 18, border: 'none', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
           >
             Log Attendance
           </button>
-          {status === 'success' && user && (
-            <div className={get('kiosk.userCard', 'w-full max-w-xs mx-auto bg-accent2 rounded-xl shadow-lg border border-accent1 p-6 mt-4 flex flex-col items-center')}>
-              <img src={user.photo} alt="User" className="w-20 h-20 rounded-full mb-3 border-4 border-accent1 shadow" />
-              <div className="text-lg font-bold text-primary mb-1">{user.firstname} {user.middlename} {user.lastname}</div>
-              <div className="text-sm text-secondary mb-1">{user.position}</div>
-              <div className="text-xs text-text">RFID: {user.rfid}</div>
-              <div className="mt-2 text-secondary font-semibold">{message}</div>
-            </div>
-          )}
-          {status === 'error' && (
-            <div className="w-full max-w-xs text-center text-secondary font-semibold text-lg mt-2">{message}</div>
-          )}
         </form>
-      </main>
+      </footer>
     </div>
   );
 }
